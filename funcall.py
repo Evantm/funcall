@@ -1,5 +1,10 @@
 # -*- coding: utf-8 -*-
 from __future__ import print_function
+try:
+    import __builtin__
+except ImportError:
+    # Python 3
+    import builtins as __builtin__
 
 
 class ChainableObject(object):
@@ -42,8 +47,8 @@ class ChainableObject(object):
             self(), lambda _: reduce(func, self.__func(self.__value)))
 
     @property
-    def puts(self):
-        print(self.__func(self.__value))
+    def print(self):
+        __builtin__.print(self.__func(self.__value))
         return self
 
     def __dir__(self, *args, **kwargs):
@@ -276,7 +281,7 @@ def obj(x):
 
     Example
     -------
-    >>> obj(10).range.filter(lambda x: x > 2).map(float).puts
+    >>> obj(10).range.filter(lambda x: x > 2).map(float).print
     [3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0]
     This is equivelent to;
     >>> print(map(float, filter(lambda x: x > 2, range(10))))
